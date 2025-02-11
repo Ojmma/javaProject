@@ -4,7 +4,7 @@
  */
 package com.mycompany.javaworkoutdoor;
 
-import com.mycompany.View.Logpage;
+import com.mycompany.javaworkoutdoor.User.User;
 
 /**
  *
@@ -12,7 +12,7 @@ import com.mycompany.View.Logpage;
  */
 public class OutdoorGear {
     public static void main(String args[]){
-        Logpage page1=new Logpage();
+        User page1=new User();
         page1.setVisible(true);
     }
     

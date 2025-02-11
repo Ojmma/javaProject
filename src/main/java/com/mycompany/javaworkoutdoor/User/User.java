@@ -2,13 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.View;
+package com.mycompany.javaworkoutdoor.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-import com.mycompany.DBModel.DBConnection;
+import java.sql.ResultSetMetaData;
+import com.mycompany.DBConnect.DBConnection;
+import com.mycompany.View.AdminDashboard;
+import com.mycompany.View.Home;
 import javax.swing.JOptionPane;
 
 
@@ -16,12 +19,12 @@ import javax.swing.JOptionPane;
  *
  * @author FAYA COMPUTER
  */
-public class Logpage extends javax.swing.JFrame {
+public class User extends javax.swing.JFrame {
 
     /**
      * Creates new form Logpage
      */
-    public Logpage() {
+    public User() {
         initComponents();
     }
 
@@ -118,7 +121,7 @@ public class Logpage extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String Uname=jTextField1.getText();
+        String name=jTextField1.getText();
         String  password=jPasswordField1.getText();
         
         DBConnection dbConnect= new DBConnection();
@@ -128,14 +131,21 @@ public class Logpage extends javax.swing.JFrame {
         
             try{
                 PreparedStatement pstmt= conn.prepareStatement("SELECT * FROM user WHERE name=? AND password=?");
-                pstmt.setString(1, Uname);
+                pstmt.setString(1, name);
                 pstmt.setString(2,password);
                 ResultSet rs=pstmt.executeQuery();
+                ResultSetMetaData rsm=rs.getMetaData();//
                 
                 if(rs.next()){
-                    JOptionPane.showMessageDialog(this,"Welcome "+ Uname);
-                    Home homepage=new Home();
-                    homepage.setVisible(true);
+                    JOptionPane.showMessageDialog(this,"Welcome "+ name);
+                    if(rs.getString("name").equalsIgnoreCase("Admin") && rs.getString("password").equalsIgnoreCase("admin123")){
+                        AdminDashboard adminconnect=new AdminDashboard();
+                        adminconnect.setVisible(true);
+                    }else if(rs.getString("name").equalsIgnoreCase("client1")){
+                         Home homepage=new Home();
+                         homepage.setVisible(true);
+                    }
+                   
                 }
                 
             }catch(SQLException e){}
@@ -168,20 +178,21 @@ public class Logpage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Logpage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Logpage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Logpage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Logpage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Logpage().setVisible(true);
+                new User().setVisible(true);
             }
         });
     }
