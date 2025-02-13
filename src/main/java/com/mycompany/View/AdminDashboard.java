@@ -62,21 +62,17 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Admin Dashboard");
 
-        jTextField1.setText("jTextField1");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
 
-        jTextField2.setText("jTextField2");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
-
-        jTextField4.setText("jTextField4");
 
         jButton1.setText("Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -100,8 +96,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jLabel5.setText("Role");
 
-        jPasswordField2.setText("jPasswordField2");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -124,9 +118,9 @@ public class AdminDashboard extends javax.swing.JFrame {
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                                    .addComponent(jPasswordField2))))
                         .addGap(66, 66, 66))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -170,13 +164,13 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "id", "Name", "email"
+                "id", "Name", "email", "password", "Role"
             }
         ));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -194,6 +188,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
 
         jButton4.setText("ProductDetails");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -267,9 +266,15 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
+
         
         DefaultTableModel model=(DefaultTableModel)jTable1.getModel();
         int selectedRow=jTable1.getSelectedRow();
+        
+        jTextField1.setText(model.getValueAt(selectedRow, 1).toString());
+        jTextField2.setText(model.getValueAt(selectedRow, 2).toString());
+        jPasswordField2.setText(model.getValueAt(selectedRow, 3).toString());
+        jTextField4.setText(model.getValueAt(selectedRow,4).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -289,8 +294,40 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:delete
+          DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+          int selectedIndex = jTable1.getSelectedRow();
+            try {   
+                
+            int id = Integer.parseInt(model.getValueAt(selectedIndex, 0).toString());
+            
+            int dialogResult = JOptionPane.showConfirmDialog (null, "Do you want to Delete the employee account","Warning",JOptionPane.YES_NO_OPTION);
+            if(dialogResult == JOptionPane.YES_OPTION){
+            DBConnection dbconn= new DBConnection();
+            Connection con1=dbconn.getConnection();
+            PreparedStatement insert = con1.prepareStatement("delete from employee where EmployeeId = ?");
+        
+            insert.setInt(1,id);
+            insert.executeUpdate();
+            JOptionPane.showMessageDialog(this, "employee Delete");
+            jTextField1.setText("");
+            jTextField2.setText("");
+            jPasswordField2.setText("");
+            jTextField4.setText("");
+            fetchData();}
+           }
+        catch (SQLException ex) {   
+            JOptionPane.showMessageDialog(this, "error" +ex.getMessage());
+        }
+        
+        
         
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+          Admindashboard_product product=new Admindashboard_product();
+         product.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,7 +338,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         
           try{
          
-          PreparedStatement pstmt=conn.prepareStatement("SELECT  Name, email, Role FROM employee");
+          PreparedStatement pstmt=conn.prepareStatement("SELECT   * FROM employee");
           ResultSet rs=pstmt.executeQuery();
           
           ResultSetMetaData rmd=rs.getMetaData();
@@ -317,9 +354,10 @@ public class AdminDashboard extends javax.swing.JFrame {
               Vector v2= new Vector();
               
               for(int i=1; i<=columnCount; i++){
-                  
+                  v2.add(rs.getString("EmployeeId"));
                   v2.add(rs.getString("Name"));
                   v2.add(rs.getString("email"));
+                  v2.add(rs.getString("password"));
                   v2.add(rs.getString("Role"));
               }
               model.addRow(v2);

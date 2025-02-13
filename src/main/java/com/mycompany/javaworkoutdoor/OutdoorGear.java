@@ -4,7 +4,7 @@
  */
 package com.mycompany.javaworkoutdoor;
 
-import com.mycompany.javaworkoutdoor.User.User;
+import com.mycompany.View.UserHomePage;
 
 /**
  *
@@ -12,7 +12,7 @@ import com.mycompany.javaworkoutdoor.User.User;
  */
 public class OutdoorGear {
     public static void main(String args[]){
-        User page1=new User();
+        UserHomePage page1=new UserHomePage();
         page1.setVisible(true);
     }
     

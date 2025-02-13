@@ -70,15 +70,20 @@ public class Admindashboard_user extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "id", "Name", "email"
+                "id", "Name", "email", "InterestedProduct"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -152,6 +157,8 @@ public class Admindashboard_user extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+          Admindashboard_product product=new Admindashboard_product();
+         product.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -160,6 +167,10 @@ public class Admindashboard_user extends javax.swing.JFrame {
         employee.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -171,7 +182,7 @@ public class Admindashboard_user extends javax.swing.JFrame {
         
           try{
          
-          PreparedStatement pstmt=conn.prepareStatement("SELECT  id, name, email FROM user");
+          PreparedStatement pstmt=conn.prepareStatement("SELECT  id, name, email,IntrestedProduct FROM user");
           ResultSet rs=pstmt.executeQuery();
           
           ResultSetMetaData rmd=rs.getMetaData();
@@ -190,6 +201,7 @@ public class Admindashboard_user extends javax.swing.JFrame {
                   v2.add(rs.getString("id"));
                   v2.add(rs.getString("name"));
                   v2.add(rs.getString("email"));
+                  v2.add(rs.getString("IntrestedProduct"));
                   
               }
               model.addRow(v2);

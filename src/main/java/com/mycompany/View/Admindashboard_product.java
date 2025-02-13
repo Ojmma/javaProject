@@ -60,20 +60,35 @@ public class Admindashboard_product extends javax.swing.JFrame {
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         jButton1.setText("Manage Emploee");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Client Account");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "productName", "Description", "price", "QuantityInStock"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -83,12 +98,12 @@ public class Admindashboard_product extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(37, 37, 37)
                         .addComponent(jButton2)))
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,21 +120,13 @@ public class Admindashboard_product extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Admin Dashboard");
 
-        jTextField1.setText("jTextField1");
-
         jLabel2.setText("ProductName");
 
         jLabel3.setText("Description");
 
-        jTextField2.setText("jTextField2");
-
         jLabel4.setText("price");
 
-        jTextField3.setText("jTextField3");
-
         jLabel5.setText("QuantityInStock");
-
-        jTextField4.setText("jTextField4");
 
         jButton3.setText("Add");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -244,6 +251,7 @@ public class Admindashboard_product extends javax.swing.JFrame {
             PreparedStatement stmt2=conn.prepareStatement("DELETE FROM products WHERE productId=? ");
             stmt2.setInt(1, id);
             stmt2.executeUpdate();
+          
             JOptionPane.showMessageDialog(this, "Products delete");
             fetchData();
         
@@ -253,7 +261,33 @@ public class Admindashboard_product extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here: update
+        DefaultTableModel model=(DefaultTableModel)jTable1.getModel();
+        int selectRow=jTable1.getSelectedRow();
+        try{
+            
+            int id=Integer.parseInt(model.getValueAt(selectRow, 0).toString());
+            String productName=jTextField1.getText();
+            String Description=jTextField2.getText();
+            String price=jTextField3.getText();
+            String QuantityInStock=jTextField4.getText();
+            
+            DBConnection dbConnect=new DBConnection();
+            Connection conn=dbConnect.getConnection();
+            
+            PreparedStatement pstmt=conn.prepareStatement("UPDATE products set productName=?,Description=?, price=?, QuantityInStock=? WHERE productId=?");
+            pstmt.setString(1,productName);
+            pstmt.setString(2, Description);
+            pstmt.setString(3, price);
+            pstmt.setString(4, QuantityInStock);
+            pstmt.setInt(5, id);
+            pstmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Your update was done successfully ");
+            
+        }catch(SQLException e){
+         JOptionPane.showMessageDialog(this, "Error occur "+e);
+        }
+        fetchData();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -274,13 +308,37 @@ public class Admindashboard_product extends javax.swing.JFrame {
             pstmt.setString(4, QuantityInStock);
             pstmt.executeUpdate();
             
-                JOptionPane.showMessageDialog(this, "You hired a new employee");
+                JOptionPane.showMessageDialog(this, "You added a product ");
                 fetchData();
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this, "error"+ e.getMessage());
         }
         
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel model=(DefaultTableModel)jTable1.getModel();
+        int selectRow=jTable1.getSelectedRow();
+       jTextField1.setText(model.getValueAt(selectRow, 1).toString());
+       jTextField2.setText(model.getValueAt(selectRow, 2).toString());
+       jTextField3.setText(model.getValueAt(selectRow, 3).toString());
+       jTextField4.setText(model.getValueAt(selectRow,4).toString());
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+          Admindashboard_user customeracc=new Admindashboard_user();
+        customeracc.setVisible(true);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        AdminDashboard employeeacc=new AdminDashboard();
+        employeeacc.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -292,7 +350,7 @@ public class Admindashboard_product extends javax.swing.JFrame {
         
           try{
          
-          PreparedStatement pstmt=conn.prepareStatement("SELECT  productName, Description, price, QuantityInStock FROM products");
+          PreparedStatement pstmt=conn.prepareStatement("SELECT  * FROM products");
           ResultSet rs=pstmt.executeQuery();
           
           ResultSetMetaData rmd=rs.getMetaData();
@@ -309,6 +367,7 @@ public class Admindashboard_product extends javax.swing.JFrame {
               
               for(int i=1; i<=columnCount; i++){
                   
+                  v2.add(rs.getString("productId"));
                   v2.add(rs.getString("productName"));
                   v2.add(rs.getString("Description"));
                   v2.add(rs.getString("price"));
