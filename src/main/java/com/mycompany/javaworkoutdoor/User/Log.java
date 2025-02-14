@@ -163,7 +163,7 @@ public class Log extends javax.swing.JFrame {
                      product.setVisible(true);
                             
                 }else{
-                    JOptionPane.showMessageDialog(this,"Wrong credentials. "+name+" are not an employee of this company" );
+                    JOptionPane.showMessageDialog(this,"Wrong credentials. "+name+" you are not an employee of this company" );
                 }
                 
             }catch(SQLException e){}
