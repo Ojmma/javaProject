@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 13 fév. 2025 à 05:03
+-- Généré le : ven. 14 fév. 2025 à 16:30
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -121,7 +121,10 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `name`, `email`, `password`, `IntrestedProduct`) VALUES
 (8, 'marc', 'marc@gmail.com', '2468', 'gloves'),
 (10, 'Caglar', 'caglar@gmail.com', 'caglar12', 'Hat'),
-(11, 'Egtugrul', 'egtugrul@gmail.com', '13579', 'Bag');
+(11, 'Egtugrul', 'egtugrul@gmail.com', '13579', 'Bag'),
+(12, 'Kai', 'kai@gmail.com', 'kai12345', 'Hat'),
+(13, 'Nathan', 'nathan@gmail.com', 'nathan123', 'Bag'),
+(14, 'Tomlance', 'lance@gmail.com', '2468', 'Hat');
 
 --
 -- Index pour les tables déchargées
@@ -194,7 +197,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Contraintes pour les tables déchargées

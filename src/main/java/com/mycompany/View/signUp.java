@@ -184,10 +184,7 @@ public class signUp extends javax.swing.JFrame {
             return;
         }
 
-        if(!Uname.matches("^[a-zA-Z0-9]+$")){
-         JOptionPane.showMessageDialog(this, "Your should only contain alphanumericalCharacters");
-            return;   
-        }
+       
         
          DBConnection dbconnect= new DBConnection();
         Connection conn =dbconnect.getConnection();
@@ -204,7 +201,7 @@ public class signUp extends javax.swing.JFrame {
                 
                
                 
-                JOptionPane.showMessageDialog(this, "Welcome "+Uname+". Your "+productName +" will be available after 12hrs");
+                JOptionPane.showMessageDialog(this, "Good choice "+Uname+". Your "+productName +" will be available after 12hrs");
                 this.dispose();
             }catch(SQLException e){
                 System.out.println("Error sign in: "+ e.getMessage());
