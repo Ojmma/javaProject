@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import com.mycompany.DBConnect.DBConnection;
 import com.mycompany.View.AdminDashboard;
+import com.mycompany.View.EmployeeDashboard;
 import com.mycompany.View.Admindashboard_product;
 import com.mycompany.View.Home;
 import java.io.IOException;
@@ -158,9 +159,11 @@ public class Log extends javax.swing.JFrame {
                 if(rs.next()){
                   
                     JOptionPane.showMessageDialog(this,"Welcome "+ name);
-                     Admindashboard_product product=new Admindashboard_product();
+                     EmployeeDashboard product=new EmployeeDashboard();
                      product.setVisible(true);
                             
+                }else{
+                    JOptionPane.showMessageDialog(this,"Wrong credentials. "+name+" are not an employee of this company" );
                 }
                 
             }catch(SQLException e){}
